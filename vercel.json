@@ -5,15 +5,19 @@
       "destination": "/server/src/index.ts"
     },
     {
+      "source": "/",
+      "destination": "/client/build/index.html"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/client/$1"
+      "destination": "/client/build/index.html"
     }
   ],
   "builds": [
     {
       "src": "client/package.json",
       "use": "@vercel/static-build",
-      "config": { "includeFiles": "client/**" }
+      "config": { "outputDirectory": "client/build" }
     },
     {
       "src": "server/src/index.ts",

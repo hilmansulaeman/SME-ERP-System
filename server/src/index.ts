@@ -111,6 +111,3 @@ if (process.env.NODE_ENV !== 'production') {
     console.log(`Server running on port ${PORT}`);
   });
 }
-
-// Export the app for Vercel
-export default app;

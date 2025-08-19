@@ -11,10 +11,20 @@
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
     "start": "cd server && npm start"
   },
-  "keywords": ["erp", "accounting", "inventory", "payroll", "tax", "sme"],
+  "keywords": [
+    "erp",
+    "accounting",
+    "inventory",
+    "payroll",
+    "tax",
+    "sme"
+  ],
   "author": "SME ERP Team",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^1.2.0"
   }
 }
