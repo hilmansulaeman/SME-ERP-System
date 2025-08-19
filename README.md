@@ -278,4 +278,3 @@ For support and questions:
 
 ---
 
-**Built with ❤️ for SMEs**
