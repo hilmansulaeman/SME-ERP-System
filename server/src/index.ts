@@ -2,8 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 
@@ -31,13 +29,6 @@ import { errorHandler } from './middleware/errorHandler';
 dotenv.config();
 
 const app = express();
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
-    methods: ["GET", "POST"]
-  }
-});
 
 // Initialize Prisma
 export const prisma = new PrismaClient();
@@ -89,20 +80,6 @@ app.use('/api/employees', authenticateToken, employeeRoutes);
 app.use('/api/payrolls', authenticateToken, payrollRoutes);
 app.use('/api/dashboard', authenticateToken, dashboardRoutes);
 
-// Socket.io connection handling
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
-
-  socket.on('join-company', (companyId: string) => {
-    socket.join(`company-${companyId}`);
-    console.log(`Client ${socket.id} joined company ${companyId}`);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
-  });
-});
-
 // Error handling middleware
 app.use(errorHandler);
 
@@ -114,31 +91,26 @@ app.use('*', (req, res) => {
   });
 });
 
-// Graceful shutdown
+// Graceful shutdown (not strictly necessary for serverless, but good practice)
 process.on('SIGTERM', async () => {
   console.log('SIGTERM received, shutting down gracefully');
   await prisma.$disconnect();
-  server.close(() => {
-    console.log('Server closed');
-    process.exit(0);
-  });
+  process.exit(0);
 });
 
 process.on('SIGINT', async () => {
   console.log('SIGINT received, shutting down gracefully');
   await prisma.$disconnect();
-  server.close(() => {
-    console.log('Server closed');
-    process.exit(0);
+  process.exit(0);
+});
+
+// Start the server only if not in a serverless environment (e.g., Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5001;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
-});
+}
 
-// Start server
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`🚀 SME ERP Server running on port ${PORT}`);
-  console.log(`📊 Environment: ${process.env.NODE_ENV}`);
-  console.log(`🔗 Health check: http://localhost:${PORT}/health`);
-});
-
-export { io };
+// Export the app for Vercel
+export default app;

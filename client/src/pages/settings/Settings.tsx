@@ -3,12 +3,12 @@ import { useAuthStore } from '../../stores/authStore';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { authAPI, companiesAPI } from '../../services/api';
 import {
-  BuildingOfficeIcon,
-  UsersIcon,
-  CalculatorIcon,
-  Cog8ToothIcon,
   PencilIcon,
   TrashIcon,
+  // BuildingOfficeIcon, // Removed as it's unused
+  // UsersIcon, // Removed as it's unused
+  // CalculatorIcon, // Removed as it's unused
+  // Cog8ToothIcon, // Removed as it's unused
 } from '@heroicons/react/24/outline';
 import { usersAPI, User, UserUpdateRequest, UserCreateRequest } from '../../services/api';
 import { useForm } from 'react-hook-form';

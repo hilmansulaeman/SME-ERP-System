@@ -25,12 +25,10 @@ const Register: React.FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
     setError,
+    // watch, // Removed as it's unused
   } = useForm<RegisterForm>();
-
-  // const password = watch('password');
 
   const registerMutation = useMutation({
     mutationFn: authAPI.register,

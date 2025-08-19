@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
 // Use explicit URL if provided, otherwise rely on CRA proxy with relative "/api"
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'production' ? 'https://sme-erp.vercel.app/api' : '/api');
 
 const api = axios.create({
   baseURL: API_BASE_URL,

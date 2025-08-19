@@ -43,7 +43,7 @@ const Invoices: React.FC = () => {
     select: (res) => (res.data.items || []) as any[],
   });
 
-  const { control, register, handleSubmit, reset, watch } = useForm<InvoiceForm>({
+  const { control, register, handleSubmit, reset, /* watch */ } = useForm<InvoiceForm>({
     defaultValues: {
       date: new Date().toISOString().slice(0, 10),
       items: [
